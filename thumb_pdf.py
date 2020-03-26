@@ -50,7 +50,7 @@ for i,p in enumerate(pdf_files):
       f = os.path.join(Config.tmp_dir, 'thumb-%d.png' % (i,))
       f2= os.path.join(Config.tmp_dir, 'thumbbuf-%d.png' % (i,))
       if os.path.isfile(f):
-        cmd = 'mv %s %s' % (f, f2)
+        cmd = 'mv -f %s %s' % (f, f2)
         os.system(cmd)
         # okay originally I was going to issue an rm call, but I am too terrified of
         # running scripted rm queries, so what we will do is instead issue a "mv" call
