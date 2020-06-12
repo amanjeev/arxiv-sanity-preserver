@@ -127,8 +127,11 @@ def papers_from_library():
     uid = session['user_id']
     user_library = query_db('''select * from library where user_id = ?''', [uid])
     libids = [strip_version(x['paper_id']) for x in user_library]
-    out = [db[x] for x in libids]
-    out = sorted(out, key=lambda k: k['updated'], reverse=True)
+    out = []
+    for x in libids:
+      if x in db:
+        out.append(db[x])
+    #out = sorted(out, key=lambda k: k['updated'], reverse=True)
   return out
 
 def papers_from_svm(recent_days=None):
@@ -396,7 +399,10 @@ def top():
   legend = {'day':1, '3days':3, 'week':7, 'month':30, 'year':365, 'alltime':10000}
   tt = legend.get(ttstr, 7)
   curtime = int(time.time()) # in seconds
-  top_sorted_papers = [db[p] for p in TOP_SORTED_PIDS]
+  top_sorted_papers = []
+  for p in TOP_SORTED_PIDS:
+    if p in db:
+      top_sorted_papers.append(db[p])
   papers = [p for p in top_sorted_papers if curtime - p['time_published'] < tt*24*60*60]
   papers = papers_filter_version(papers, vstr)
   ctx = default_context(papers, render_format='top',
