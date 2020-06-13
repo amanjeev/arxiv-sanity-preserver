@@ -11,7 +11,7 @@ python-twitter
 pytz
 
 # the following are only for serve.py
-python-dateutil
+py-dateutil
 flask
 flask_limiter
 tornado
